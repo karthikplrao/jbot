@@ -32,6 +32,7 @@ export async function getUserPrompt(slug) {
 }
 
 export async function getTemplate(slug) {
+  /* eslint-disable-next-line no-undef */
   const [templates, systemPrompt, userPrompt] = await Promise.all([
     getTemplates(),
     getSystemPrompt(slug),

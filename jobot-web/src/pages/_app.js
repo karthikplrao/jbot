@@ -1,22 +1,25 @@
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "react-hot-toast";
 import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
-  // Create a new supabase browser client on every first render.
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
-  // const [supabaseClient] = useState(() => createBrowserSupabaseClient({
-  //   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  //   supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  // }));
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      <Component {...pageProps} />
-    </SessionContextProvider>
+    <>
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
+      >
+        <>
+          <Component {...pageProps} />
+          <Toaster />
+        </>
+      </SessionContextProvider>
+      <Analytics />
+    </>
   );
 }
